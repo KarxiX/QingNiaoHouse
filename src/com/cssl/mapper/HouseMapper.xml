@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cssl.mapper.HouseMapper">
+
+    <select id="FindAllHouse" resultType="House">
+        select h.*,t.* from house h INNER JOIN type t on h.type_id = t.tid
+        <!--查询所有房子-->
+    </select>
+
+    <select id="FindOneHouse" resultType="House" parameterType="House">
+        SELECT * FROM house
+        <where>
+            <if test="street_id != null and street_id != 0">
+                street_id = #{street_id}
+            </if>
+            <if test="type_id != null and type_id != 0">
+                and type_id = #{type_id}
+            </if>
+            <if test="price != null and price != 0">
+                and price BETWEEN #{price} and 100000
+            </if>
+            <if test="floorage != null and floorage != 0">
+                and floorage BETWEEN #{floorage} and 10000
+            </if>
+        </where>
+            <!--    多条件查询房子    -->
+    </select>
+
+    <select id="FindDetailHouse" resultType="House">
+        SELECT h.*, t.*, s.*, d.*
+        FROM house h
+        INNER JOIN type t ON h.type_id = t.tid
+        INNER JOIN street s ON t.tid = s.district_id
+        INNER JOIN district d ON s.district_id = d.did
+        WHERE h.id = #{h.id}
+        GROUP BY h.id;
+        <!--查询房子详细信息-->
+    </select>
+
+</mapper>

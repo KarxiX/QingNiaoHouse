@@ -1,0 +1,79 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0044)http://localhost:8080/HouseRent/page/add.jsp -->
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD><TITLE>青鸟租房 -发布房屋信息</TITLE>
+    <META content="text/html;charset=UTF-8" http-equiv=Content-Type>
+    <LINK
+            rel=stylesheet type=text/css href="css/style.css">
+    <META name=GENERATOR content="MSHTML 8.00.7601.17514">
+    <script src="scripts/jquery-1.8.2.min.js"></script></HEAD>
+<BODY>
+
+<DIV id=header class=wrap>
+    <DIV id=logo><IMG src="images/logo.gif"></DIV>
+</DIV>
+
+<DIV id="view" class="main wrap">
+
+</DIV>
+<DIV id=footer class=wrap>
+    <DL>
+        <DT>青鸟租房 © 2010 北大青鸟 京ICP证1000001号</DT>
+        <DD>关于我们 · 联系方式 · 意见反馈 · 帮助中心</DD>
+    </DL>
+</DIV>
+</BODY>
+<script type="text/javascript">
+        <!--  时间戳转换方法  -->
+    function formatTimestamp(timestamp) {
+        let date = new Date(timestamp);
+        let year = date.getFullYear();
+        let month = ('0' + (date.getMonth() + 1)).slice(-2);
+        let day = ('0' + date.getDate()).slice(-2);
+        let hours = ('0' + date.getHours()).slice(-2);
+        let minutes = ('0' + date.getMinutes()).slice(-2);
+        let seconds = ('0' + date.getSeconds()).slice(-2);
+        let milliseconds = ('00' + date.getMilliseconds()).slice(-3);
+        return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds + '.' + milliseconds;
+    }
+
+    let params = new URLSearchParams(window.location.search);
+    let id = params.get('id');
+    $.getJSON('HouseServlet?opr=Details&id='+id,function(res){
+        console.log(res)
+        $(res).each(function(i, e) {
+            let timestamp = e.pubdate;
+            let date = formatTimestamp(timestamp);
+            let tr = "<div class='intro'>" +
+                "    <div class='lefter'>" +
+                "        <h1>" + e.title + "</h1>" +
+                "        <div class='subinfo'>" + date + "</div>" +
+                "        <div class='houseinfo'>" +
+                "            <p>户　　型：<span>" + e.tname + "</span></p>" +
+                "            <p>面　　积：<span>" + e.floorage + "<sup>2</sup></span></p>" +
+                "            <p>位　　置：<span>" + e.dname + e.sname + "</span></p>" +
+                "            <p>联系方式：<span>" + e.contant + "</span></p>" +
+                "        </div>" +
+                "    </div>" +
+                "    <div class='side'>" +
+                "        <p><a class='bold' href='http://localhost:8080/House-2/#'>北京青鸟房地产经纪公司</a></p>" +
+                "        <p>资质证书：有</p>" +
+                "        <p>内部编号:" + e.contant + "</p>" +
+                "        <p>联 系 人：</p>" +
+                "        <p>联系电话：<span></span></p>" +
+                "        <p>手机号码：<span>暂无</span></p>" +
+                "    </div>" +
+                "    <div class='clear'></div>" +
+                "    <div class='introduction'>" +
+                "        <h2><span><strong>房源详细信息</strong></span></h2>" +
+                "        <div class='content'>" +
+                "            <p>" + e.descript + "</p>" +
+                "        </div>" +
+                "    </div>" +
+                "</div>";
+            $("#view").append(tr);
+        });
+    })
+</script>
+</HTML>

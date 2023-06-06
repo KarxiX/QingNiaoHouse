@@ -1,0 +1,167 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0030)http://localhost:8080/House-2/ -->
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HEAD><TITLE>青鸟租房 - 首页</TITLE>
+    <META content="text/html; charset=utf-8" http-equiv=Content-Type>
+    <LINK rel=stylesheet type=text/css href="css/style.css">
+    <META name=GENERATOR content="MSHTML 8.00.7601.17514">
+    <script src="scripts/jquery-1.8.2.min.js"></script>
+</HEAD>
+<BODY>
+<DIV id=header class=wrap>
+    <DIV id=logo><IMG src="images/logo.gif"></DIV>
+</DIV>
+<DIV id=navbar class=wrap>
+    <DL class="search clearfix">
+        <FORM id=sform method=post action=search.action>
+            <DT>
+                <UL>
+                    <LI class=bold>房屋信息</LI>
+                    <LI>标题：<INPUT class=text type=text name=title> <LABEL class=ui-blue><INPUT onclick=doSearch()
+                                                                                                 value=搜索房屋
+                                                                                                 type=button
+                                                                                                 name=search></LABEL>
+                    </LI>
+                </UL>
+            </DT>
+
+            <DD>
+                <UL>
+                    <LI class=first>区县</LI>
+                    <LI><SELECT id=district name=district_id>
+                        <OPTION selected
+                                value="">不限
+                        </OPTION>
+                        <OPTION value=1>雨花区</OPTION>
+                        <OPTION
+                                value=2>开福区
+                        </OPTION>
+                        <OPTION value=3>天心区</OPTION>
+                        <OPTION
+                                value=4>岳麓区
+                        </OPTION>
+                    </SELECT></LI>
+                </UL>
+            </DD>
+            <DD>
+                <UL>
+                    <LI class=first>街道</LI>
+                    <LI><SELECT id=street name=street_id>
+                        <OPTION selected
+                                value="">不限
+                        </OPTION>
+                        <OPTION value=1>砂子塘</OPTION>
+                        <OPTION
+                                value=2>牛婆塘
+                        </OPTION>
+                        <OPTION value=3>司马里</OPTION>
+                        <OPTION
+                                value=4>中山路
+                        </OPTION>
+                        <OPTION
+                                value=5>蔡锷路
+                        </OPTION>
+                        <OPTION
+                                value=6>芙蓉路
+                        </OPTION>
+                    </SELECT></LI>
+                </UL>
+            </DD>
+            <DD>
+                <UL>
+                    <LI class=first>房型</LI>
+                    <LI><SELECT name=type_id>
+                        <OPTION selected value="">不限</OPTION>
+                        <OPTION
+                                value=1>一室一厅
+                        </OPTION>
+                        <OPTION value=2>两室一厅</OPTION>
+                        <OPTION
+                                value=3>两室两厅
+                        </OPTION>
+                        <OPTION value=4>三室两厅</OPTION>
+                        <OPTION value=4>四室三厅</OPTION>
+                    </SELECT>
+                    </LI>
+                </UL>
+            </DD>
+            <DD>
+                <UL>
+                    <LI class=first>价格</LI>
+                    <LI><SELECT name=price>
+                        <OPTION selected value="">不限</OPTION>
+                        <OPTION
+                                value=2000>2000元以下
+                        </OPTION>
+                        <OPTION value=2000>2000元以下</OPTION>
+                        <OPTION value=3000>3000元以下</OPTION>
+                    </SELECT></LI>
+                </UL>
+            </DD>
+            <DD>
+                <UL>
+                    <LI class=first>面积</LI>
+                    <LI><SELECT name=floorage>
+                        <OPTION selected value="">不限</OPTION>
+                        <OPTION
+                                value=0-40>40以下
+                        </OPTION>
+                        <OPTION value=40-500>40-500</OPTION>
+                        <OPTION
+                                value=500-1000000>500以上
+                        </OPTION>
+                    </SELECT></LI>
+                </UL>
+            </DD>
+        </FORM>
+    </DL>
+</DIV>
+<DIV class="main wrap">
+    <TABLE class=house-list>
+        <TBODY id="tab">
+        <TR>无租房信息</TR>
+        </TBODY>
+    </TABLE>
+    <DIV class=pager>
+        <UL>
+            <LI class=current><A href="#">首页</A></LI>
+            <LI><A href="#">上一页</A></LI>
+            <LI><A href="#">下一页</A></LI>
+            <LI><A href="#">末页</A></LI>
+        </UL>
+        <SPAN
+                class=total>1/2页</SPAN></DIV>
+</DIV>
+<DIV id=footer class=wrap>
+    <DL>
+        <DT>青鸟租房 © 2010 北大青鸟 京ICP证1000001号</DT>
+        <DD>关于我们 · 联系方式 · 意见反馈 · 帮助中心</DD>
+    </DL>
+</DIV>
+</BODY>
+<script type="text/javascript">
+    $.getJSON('HouseServlet?opr=FindAll', function (res) {
+        console.log(res);
+        $(res).each(function (i, e) {
+            let id = e.id;
+            var url = 'details.html?id=' + encodeURIComponent(id);
+            let tr = "<tr>" +
+                "<td class='house-thumb'><span><a href=' " + url + "' target='_blank'><img src='images/House1.webp' width='100' height='75' alt=''></a></span></td>" +
+                "<td>" +
+                "<dl>" +
+                "<dt><a href=' " + url + "' target='_self'>" + e.title + "</a></dt>" +
+                "<dd>" + e.floorage + "平米<br>联系方式：" + e.contant + "</dd>" +
+                "</dl>" +
+                "</td>" +
+                "<td class='house-type'>" + e.tname + "</td>" +
+                "<td class='house-price'><span>" + e.privce + "</span>元/月</td>" +
+                "</tr>";
+            $("#tab").append(tr);
+            $("tr").css("background-color", "#ffffff");
+            $("tr:odd").css("background-color", "#bbeae2");
+        });
+
+    })
+</script>
+</HTML>
