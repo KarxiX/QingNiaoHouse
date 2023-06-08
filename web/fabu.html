@@ -1,4 +1,5 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
 <!-- saved from url=(0044)http://localhost:8080/HouseRent/page/add.jsp -->
 <HTML xmlns="http://www.w3.org/1999/xhtml">
 <HEAD>
@@ -25,7 +26,7 @@
                         <TBODY>
                         <TR>
                             <TD class=field>标　　题：</TD>
-                            <TD><INPUT id=add_action_title class=text type=text name=title> </TD>
+                            <TD><INPUT id=add_action_title class=text type=text name=title></TD>
                         </TR>
                         <TR>
                             <TD class=field>户　　型：</TD>
@@ -49,7 +50,7 @@
                         </TR>
                         <TR>
                             <TD class=field>价　　格：</TD>
-                            <TD><INPUT id=add_action_price class=text type=text name=price> </TD>
+                            <TD><INPUT id=add_action_price class=text type=text name=price></TD>
                         </TR>
                         <TR>
                             <TD class=field>房产证日期：</TD>
@@ -76,7 +77,7 @@
                         </TR>
                         <TR>
                             <TD class=field>联系方式：</TD>
-                            <TD><INPUT id=add_action_contact class=text type=text name=contact> </TD>
+                            <TD><INPUT id=add_action_contact class=text type=text name=contact></TD>
                         </TR>
                         <TR>
                             <TD class=field>详细信息：</TD>
@@ -84,13 +85,13 @@
                         </TR>
                         </TBODY>
                     </TABLE>
-                    <DIV class=buttons>
-                        <INPUT onclick="NewHouse()" value=立即发布 type=button>
-                    </DIV>
-                    <DIV class=buttons>
-                        <INPUT onclick="UpdateHouse()" value=立即修改 type=button>
-                    </DIV>
-                </DIV>
+                    <div class="buttons">
+                        <input onclick="AddHouse()" value="立即发布" type="button" id="NewHouse">
+                    </div>
+                    <div class="buttons">
+                        <input onclick="UpHouse()" value="立即修改" type="button" id="UpdateHouse">
+                    </div>
+
             </FORM>
         </DIV>
     </DIV>
@@ -105,31 +106,33 @@
 <script>
     let params = new URLSearchParams(window.location.search);
     let id = params.get('id');
-    $.getJSON("HouseServlet?opr=Details&id=" + id, function (res) {
-        console.log(res);
-        $(res).each(function (i, e) {
-            let timestamp = e.pubdate;
-            let date = formatTimestamp(timestamp);
-            $("#add_action_title").val(e.title);
-            $("#add_action_floorage").val(e.floorage);
-            $("#add_action_price").val(e.price);
-            $("#houseDate").val(date);
-            $("#add_action_contact").val(e.contant);
-            $("#description").val(e.descript);
-            $("#street").get(0).selectedIndex = e.sid - 1;
-            $("#district").get(0).selectedIndex = e.did - 1;
-            $("#type_id").get(0).selectedIndex = e.type_id;
+    if(id!=null){
+        $.getJSON("HouseServlet?opr=Details&id=" + id, function (res) {
+            console.log(res);
+            $(res).each(function (i, e) {
+                let timestamp = e.pubdate;
+                let date = formatTimestamp(timestamp);
+                $("#add_action_title").val(e.title);
+                $("#add_action_floorage").val(e.floorage);
+                $("#add_action_price").val(e.price);
+                $("#houseDate").val(date);
+                $("#add_action_contact").val(e.contant);
+                $("#description").val(e.descript);
+                $("#street").get(0).selectedIndex = e.sid - 1;
+                $("#district").get(0).selectedIndex = e.did - 1;
+                $("#type_id").get(0).selectedIndex = e.type_id;
+            });
         });
-    });
+    }
 
     // 新增房子方法
-    function NewHouse() {
-        alert("NewHouse");
+    function AddHouse() {
+        alert("AddHouse");
     }
 
     // 修改房子信息方法
-    function UpdateHouse() {
-        alert("UpdateHouse");
+    function UpHouse() {
+        alert("UpHouse");
     }
 
     // 时间戳转换方法
@@ -144,6 +147,24 @@
         let milliseconds = ('00' + date.getMilliseconds()).slice(-3);
         return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds + '.' + milliseconds;
     }
+
+    $(document).ready(function() {
+        let urlParams = new URLSearchParams(window.location.search);
+        let uid = urlParams.get('uid');
+        let UpdateHouseButton = $('#UpdateHouse');
+        let NewHouseButton = $('#NewHouse');
+
+        if (uid != null) {
+            UpdateHouseButton.prop('disabled', true);
+            UpdateHouseButton.val("已禁用!")
+        }
+
+        if (uid == null) {
+            NewHouseButton.prop('disabled', true);
+            NewHouseButton.val("已禁用!")
+        }
+    });
+
 </script>
 </BODY>
 </HTML>

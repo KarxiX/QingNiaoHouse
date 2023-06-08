@@ -43,4 +43,9 @@
         <!--查询房子详细信息-->
     </select>
 
+    <insert id="AddHouse" parameterType="House">
+        INSERT INTO
+        house(`street_id`,`user_id`,`type_id`,`title`,`descript`,`price`,`pubdate`,`floorage`,`contant`)
+        VALUES(#{street_id},#{user_id},#{type_id},#{title},#{descript},#{price},#{pubdate},#{floorage},#{contant})
+    </insert>
 </mapper>

@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
 <!-- saved from url=(0030)http://localhost:8080/House-2/ -->
-<HTML xmlns="http://www.w3.org/1999/xhtml">
+<HTML xmlns="http://www.w3.org/1999/xhtml" xmlns="">
 <HEAD><TITLE>青鸟租房 - 首页</TITLE>
     <META content="text/html; charset=utf-8" http-equiv=Content-Type>
     <LINK rel=stylesheet type=text/css href="css/style.css">
@@ -13,6 +13,9 @@
     <DIV id=logo><IMG src="images/logo.gif"></DIV>
 </DIV>
 <DIV id=navbar class=wrap>
+    <a href="" id="addHouse">新增住房</a>
+    <p id="user-info"></p>
+    <input type="hidden" id="user-uid"value="">
     <DL class="search clearfix">
         <FORM id=sform method=post action=search.action>
             <DT>
@@ -130,8 +133,7 @@
             <LI><A href="#">下一页</A></LI>
             <LI><A href="#">末页</A></LI>
         </UL>
-        <SPAN
-                class=total>1/2页</SPAN></DIV>
+        <SPAN class=total>1/2页</SPAN></DIV>
 </DIV>
 <DIV id=footer class=wrap>
     <DL>
@@ -162,5 +164,20 @@
             $("tr:odd").css("background-color", "#bbeae2");
         });
     })
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) {
+            return parts.pop().split(";").shift();
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        let user = getCookie("UserName");
+        let uid = getCookie("UserUid");
+        document.getElementById("user-info").textContent = "欢迎您：" + user;
+        document.getElementById("user-uid").textContent = uid;
+        $("#addHouse").attr("href",`fabu.html?uid=${uid}`);
+    });
+
 </script>
 </HTML>

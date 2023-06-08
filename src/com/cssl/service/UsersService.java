@@ -7,5 +7,6 @@ public interface UsersService {
     //登录
     Integer Regist(Users users);
     //注册
+    Users IsExit(String name);
 
 }

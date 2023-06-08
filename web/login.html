@@ -66,18 +66,16 @@
         let name = $("#user_name").val();
         let pwd = $("#user_password").val();
         let opr = "login";
+        let uid;
         if(name == "" || pwd == ""){
             alert("请输入账号密码!")
             return;
         }else if(name == "admin"){
             opr = "Admin";
         }
+        $.getJSON("UsersServlet")
         window.location.href = "UsersServlet?opr="+opr+"&name="+name+"&pwd="+pwd
     });
 </script>
-<!--$.post('UsersServlet',{opr:'login',name : name,pwd : pwd},function(res){
-                    if(res.msg == "登陆成功"){
-                        window.location.href = "list.html"
-                    }
-        },"json")-->
+
 </HTML>

@@ -16,4 +16,9 @@ public class UsersServiceImpl implements UsersService {
     public Integer Regist(Users users) {
         return UM.Regist(users);
     }
+
+    @Override
+    public Users IsExit(String name) {
+        return UM.IsExit(name);
+    }
 }

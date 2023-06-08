@@ -10,4 +10,9 @@
     <update id="Regist" parameterType="Users">
         INSERT INTO users(`name`,`password`,`telephone`,`username`) VALUES(#{name},#{password},#{telephone},#{username})
     </update>
+
+    <select id="IsExit" parameterType="String" resultType="Users">
+        SELECT * FROM users where `name` = #{name};
+    </select>
+
 </mapper>

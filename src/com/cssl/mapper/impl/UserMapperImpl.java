@@ -20,5 +20,10 @@ public class UserMapperImpl implements UserMapper {
         return row;
     }
 
+    @Override
+    public Users IsExit(String name) {
+        return UM.IsExit(name);
+    }
+
 
 }
