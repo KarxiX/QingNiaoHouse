@@ -37,4 +37,11 @@ public class HouseMapperImpl implements HouseMapper {
         return rows;
     }
 
+    @Override
+    public int UpdateHouse(House house) {
+        int rows = HM.UpdateHouse(house);
+        session.commit();
+        return rows;
+    }
+
 }

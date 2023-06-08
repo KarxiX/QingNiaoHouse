@@ -29,7 +29,7 @@
                 and floorage BETWEEN #{floorage} and 10000
             </if>
         </where>
-            <!--    多条件查询房子    -->
+        <!--    多条件查询房子    -->
     </select>
 
     <select id="FindDetailHouse" resultType="House">
@@ -48,4 +48,13 @@
         house(`street_id`,`user_id`,`type_id`,`title`,`descript`,`price`,`pubdate`,`floorage`,`contant`)
         VALUES(#{street_id},#{user_id},#{type_id},#{title},#{descript},#{price},#{pubdate},#{floorage},#{contant})
     </insert>
+
+    <update id="UpdateHouse" parameterType="House">
+        update house
+        set
+        street_id = #{street_id},type_id = #{type_id},title = #{title},
+        descript=#{descript},price=#{price},pubdate=#{pubdate},
+        floorage=#{floorage},contant=#{contant}
+        where id= #{id}
+    </update>
 </mapper>

@@ -12,4 +12,6 @@ public interface HouseMapper {
     House FindDetailHouse(Integer id);
     //查询该房子详细信息
     int AddHouse(House house);
+
+    int UpdateHouse(House house);
 }

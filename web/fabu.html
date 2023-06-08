@@ -189,7 +189,7 @@
     function UpHouse() {
         //alert("UpHouse");
         let urlParams = new URLSearchParams(window.location.search);
-        let uid = urlParams.get('uid');
+        let id = urlParams.get('id');
         let title = $("#add_action_title").val();
         let type_id = $("#type_id").val();
         let floorage = $("#add_action_floorage").val();
@@ -199,8 +199,35 @@
         let street_id = $("#street").val();
         let contact = $("#add_action_contact").val();
         let description = $("#description").val();
-        extracted(title, type_id, floorage, price, houseDate, district_id, street_id, contact, description, uid);
-
+        extracted(title, type_id, floorage, price, houseDate, district_id, street_id, contact, description, id);
+        // 构建请求参数对象
+        let requestData = {
+            id: id,
+            title: title,
+            type_id: type_id,
+            floorage: floorage,
+            price: price,
+            houseDate: houseDate,
+            district_id: district_id,
+            street_id: street_id,
+            contact: contact,
+            description: description
+        };
+        // 发送 AJAX 请求
+        $.ajax({
+            url: "HouseServlet?opr=Update",
+            type: "POST",
+            data: requestData,
+            success: function (response) {
+                // 请求成功的回调函数
+                alert("房屋修改成功");
+                window.location.href = "guanli.html";
+            },
+            error: function (xhr, status, error) {
+                // 请求失败的回调函数
+                alert("房屋修改失败：" + error);
+            }
+        });
     }
 
     // 时间戳转换方法

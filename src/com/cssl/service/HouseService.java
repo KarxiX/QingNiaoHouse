@@ -13,4 +13,6 @@ public interface HouseService {
     //查询该房子详细信息
     int AddHouse(House house);
     //添加房子
+    int UpdateHouse(House house);
+    //修改房子信息
 }
