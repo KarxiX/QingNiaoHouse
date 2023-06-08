@@ -9,7 +9,7 @@
         FROM house h
         INNER JOIN type t ON h.type_id = t.tid
         INNER JOIN street s ON h.street_id = s.sid
-        INNER JOIN district d ON s.district_id = d.did
+        INNER JOIN district d ON s.district_id = d.did ORDER BY h.id desc
         <!--查询所有房子-->
     </select>
 
@@ -57,4 +57,8 @@
         floorage=#{floorage},contant=#{contant}
         where id= #{id}
     </update>
+
+    <delete id="DeleteHouse" parameterType="INT">
+        DELETE FROM house where id = #{id};
+    </delete>
 </mapper>

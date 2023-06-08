@@ -44,4 +44,11 @@ public class HouseMapperImpl implements HouseMapper {
         return rows;
     }
 
+    @Override
+    public int DeleteHouse(Integer id) {
+        int rows = HM.DeleteHouse(id);
+        session.commit();
+        return rows;
+    }
+
 }

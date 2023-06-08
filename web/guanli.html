@@ -8,11 +8,16 @@
     <LINK rel=stylesheet type=text/css href="css/style.css">
     <META name=GENERATOR>
     <script src="scripts/jquery-1.8.2.min.js"></script>
+    <style>
+        .DeleteButton {
+            color: #ff3300;
+        }
+    </style>
 </HEAD>
 <BODY>
 <DIV id=header class=wrap>
     <DIV id=logo><IMG src="images/logo.gif"></DIV>
-    <DIV class=search><LABEL class="ui-green searchs"><a href="fabu.html" title="">发布房屋信息</a></LABEL>
+    <DIV class=search><LABEL class="ui-green searchs"><a href="fabu.html" title="">管理房屋信息</a></LABEL>
         <LABEL class=ui-green><INPUT onclick='document.location="login.html"' value="退       出" type=button
                                      name=search></LABEL>
     </DIV>
@@ -59,17 +64,18 @@
             id = e.id;
             urlUpdate = 'fabu.html?id=' + encodeURIComponent(id);
             urlDetails = 'details.html?id=' + encodeURIComponent(id);
+            let urlDelete = 'HouseServlet?opr=Delete&id=' + encodeURIComponent(id);
             let tr = `<tr>
-                <td class="house-thumb"><span><a href="${urlDetails}" target="_blank"><img src="images/House1.webp" width="100" height="75" alt=""></a></span></td>
-                <td>
-                    <dl>
-                        <dt><a href="${urlDetails}" target="_blank">${e.title}</a></dt>
-                        <dd>${e.dname} ${e.sname}，${e.floorage}平米<br>联系方式：${e.contant}</dd>
-                    </dl>
-                </td>
-                <td class="house-type"><label class="ui-green"><input onclick="window.location.href='${urlUpdate}'" type="button" name="search" value="修改"></label></td>
-                <td class="house-price"><label class="ui-green"><input value="删除" type="button" name="search"></label></td>
-            </tr>`;
+    <td class="house-thumb"><span><a href="${urlDetails}" target="_blank"><img src="images/House1.webp" width="100" height="75" alt=""></a></span></td>
+    <td>
+        <dl>
+            <dt><a href="${urlDetails}" target="_blank">${e.title}</a></dt>
+            <dd>${e.dname} ${e.sname}，${e.floorage}平米<br>联系方式：${e.contant}</dd>
+        </dl>
+    </td>
+    <td class="house-type"><label class="ui-green"><input onclick="window.location.href='${urlUpdate}'" type="button" name="search" value="修改"></label></td>
+    <td class="house-price"><label class="ui-green"><input onclick="window.location.href='${urlDelete}'" value="删除" type="button" name="search" class="DeleteButton"></label></td>
+</tr>`;
             $("#tab").append(tr);
             $("tr").css("background-color", "#ffffff");
             $("tr:odd").css("background-color", "#bbeae2");

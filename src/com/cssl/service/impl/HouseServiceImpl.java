@@ -34,5 +34,10 @@ public class HouseServiceImpl implements HouseService {
         return HM.UpdateHouse(house);
     }
 
+    @Override
+    public int DeleteHouse(Integer id) {
+        return HM.DeleteHouse(id);
+    }
+
 
 }

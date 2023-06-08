@@ -1,6 +1,7 @@
 package com.cssl.service;
 
 import com.cssl.pojo.House;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface HouseService {
     //添加房子
     int UpdateHouse(House house);
     //修改房子信息
+
+    int DeleteHouse(@Param("id")Integer id);
+    //删除房子
 }

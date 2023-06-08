@@ -108,6 +108,17 @@ public class HouseServlet extends HttpServlet {
                 res.getWriter().write("房屋修改成功");
             }
         }
+        if ("Delete".equals(opr)) {
+            Integer id = Integer.valueOf(req.getParameter("id"));
+            int rows = HS.DeleteHouse(id);
+            if (rows > 0) {
+                req.getRequestDispatcher("guanli.html").forward(req, res);
+                System.out.println("删除成功!");
+            } else {
+                res.sendRedirect("gunali.html");
+                System.out.println("删除失败!");
+            }
+        }
 
     }
 }
