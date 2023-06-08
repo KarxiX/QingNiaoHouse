@@ -63,18 +63,21 @@
 <script type="text/javascript">
     $("#jntm").click(function () {
         //document.location = "HouseServlet?opr=FindAll"
-        var name = $("#user_name").val();
-        var pwd = $("#user_password").val();
+        let name = $("#user_name").val();
+        let pwd = $("#user_password").val();
+        let opr = "login";
         if(name == "" || pwd == ""){
             alert("请输入账号密码!")
             return;
+        }else if(name == "admin"){
+            opr = "Admin";
         }
-        window.location.href = "UsersServlet?opr=login&name="+name+"&pwd="+pwd
-        // $.post('UsersServlet',{opr:'login',name : name,pwd : pwd},function(res){
-        //             if(res.msg == "登陆成功"){
-        //                 window.location.href = "list.html"
-        //             }
-        // },"json")
+        window.location.href = "UsersServlet?opr="+opr+"&name="+name+"&pwd="+pwd
     });
 </script>
+<!--$.post('UsersServlet',{opr:'login',name : name,pwd : pwd},function(res){
+                    if(res.msg == "登陆成功"){
+                        window.location.href = "list.html"
+                    }
+        },"json")-->
 </HTML>

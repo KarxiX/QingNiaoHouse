@@ -8,6 +8,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet(name = "UsersServlet", value = "/UsersServlet")
 public class UsersServlet extends HttpServlet {
@@ -29,10 +30,19 @@ public class UsersServlet extends HttpServlet {
             String pwd = req.getParameter("pwd");
             Users users = new Users(name, pwd);
             Users users1 = US.Login(users);
-            if (users1 != null) {
-                req.getRequestDispatcher("list.html").forward(req,res);
+            if (users1 != null && users1.getUid() > 0) {
+                req.getRequestDispatcher("list.html").forward(req, res);
             } else {
                 res.sendRedirect("login.html");
+            }
+        }
+        if ("Admin".equals(opr)) {
+            String name = req.getParameter("name");
+            String pwd = req.getParameter("pwd");
+            Users users = new Users(name, pwd);
+            Users users1 = US.Login(users);
+            if (users1 != null && users1.getUid() == 1) {
+                res.sendRedirect("guanli.html");
             }
         }
         //注册账号
@@ -41,11 +51,11 @@ public class UsersServlet extends HttpServlet {
             String password = req.getParameter("password");
             String telephone = req.getParameter("telephone");
             String username = req.getParameter("username");
-            Users users = new Users(null,name,password,telephone,username);
+            Users users = new Users(null, name, password, telephone, username);
             int rows = US.Regist(users);
-            if (rows > 0){
-                req.getRequestDispatcher("login.html").forward(req,res);
-            }else {
+            if (rows > 0) {
+                req.getRequestDispatcher("login.html").forward(req, res);
+            } else {
                 res.sendRedirect("regs.html");
             }
         }

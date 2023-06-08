@@ -5,7 +5,11 @@
 <mapper namespace="com.cssl.mapper.HouseMapper">
 
     <select id="FindAllHouse" resultType="House">
-        select h.*,t.* from house h INNER JOIN type t on h.type_id = t.tid
+        SELECT h.*, t.*, s.*, d.*
+        FROM house h
+        INNER JOIN type t ON h.type_id = t.tid
+        INNER JOIN street s ON h.street_id = s.sid
+        INNER JOIN district d ON s.district_id = d.did
         <!--查询所有房子-->
     </select>
 
@@ -32,9 +36,9 @@
         SELECT h.*, t.*, s.*, d.*
         FROM house h
         INNER JOIN type t ON h.type_id = t.tid
-        INNER JOIN street s ON t.tid = s.district_id
+        INNER JOIN street s ON h.street_id = s.sid
         INNER JOIN district d ON s.district_id = d.did
-        WHERE h.id = #{h.id}
+        WHERE h.id = #{id}
         GROUP BY h.id;
         <!--查询房子详细信息-->
     </select>
