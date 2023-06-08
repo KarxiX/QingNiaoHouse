@@ -91,7 +91,7 @@
                     <div class="buttons">
                         <input onclick="UpHouse()" value="立即修改" type="button" id="UpdateHouse">
                     </div>
-
+                </DIV>
             </FORM>
         </DIV>
     </DIV>
@@ -106,7 +106,7 @@
 <script>
     let params = new URLSearchParams(window.location.search);
     let id = params.get('id');
-    if(id!=null){
+    if (id != null) {
         $.getJSON("HouseServlet?opr=Details&id=" + id, function (res) {
             console.log(res);
             $(res).each(function (i, e) {
@@ -125,14 +125,82 @@
         });
     }
 
+    //打印获取值
+    function extracted(title, type_id, floorage, price, houseDate, district_id, street_id, contact, description, uid) {
+        // 打印获取到的值
+        console.log("标题：" + title);
+        console.log("户型ID：" + type_id);
+        console.log("面积：" + floorage);
+        console.log("价格：" + price);
+        console.log("房产证日期：" + houseDate);
+        console.log("区ID：" + district_id);
+        console.log("街ID：" + street_id);
+        console.log("联系方式：" + contact);
+        console.log("详细信息：" + description);
+        console.log("用户id：" + uid);
+    }
+
     // 新增房子方法
     function AddHouse() {
-        alert("AddHouse");
+        //alert("AddHouse");
+        let urlParams = new URLSearchParams(window.location.search);
+        let uid = urlParams.get('uid');
+        let title = $("#add_action_title").val();
+        let type_id = $("#type_id").val();
+        let floorage = $("#add_action_floorage").val();
+        let price = $("#add_action_price").val();
+        let houseDate = $("#houseDate").val();
+        let district_id = $("#district").val();
+        let street_id = $("#street").val();
+        let contact = $("#add_action_contact").val();
+        let description = $("#description").val();
+        extracted(title, type_id, floorage, price, houseDate, district_id, street_id, contact, description, uid);
+        // 构建请求参数对象
+        let requestData = {
+            uid: uid,
+            title: title,
+            type_id: type_id,
+            floorage: floorage,
+            price: price,
+            houseDate: houseDate,
+            district_id: district_id,
+            street_id: street_id,
+            contact: contact,
+            description: description
+        };
+        // 发送 AJAX 请求
+        $.ajax({
+            url: "HouseServlet?opr=AddHouse",
+            type: "POST",
+            data: requestData,
+            success: function (response) {
+                // 请求成功的回调函数
+                alert("房屋发布成功");
+                window.location.href = "list.html";
+            },
+            error: function (xhr, status, error) {
+                // 请求失败的回调函数
+                alert("房屋发布失败：" + error);
+            }
+        });
     }
 
     // 修改房子信息方法
     function UpHouse() {
-        alert("UpHouse");
+        //alert("UpHouse");
+        let urlParams = new URLSearchParams(window.location.search);
+        let uid = urlParams.get('uid');
+        let title = $("#add_action_title").val();
+        let type_id = $("#type_id").val();
+        let floorage = $("#add_action_floorage").val();
+        let price = $("#add_action_price").val();
+        let houseDate = $("#houseDate").val();
+        let district_id = $("#district").val();
+        let street_id = $("#street").val();
+        let contact = $("#add_action_contact").val();
+        let description = $("#description").val();
+        extracted(title, type_id, floorage, price, houseDate, district_id, street_id, contact, description, uid);
+
     }
 
     // 时间戳转换方法
@@ -148,7 +216,7 @@
         return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds + '.' + milliseconds;
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         let urlParams = new URLSearchParams(window.location.search);
         let uid = urlParams.get('uid');
         let UpdateHouseButton = $('#UpdateHouse');

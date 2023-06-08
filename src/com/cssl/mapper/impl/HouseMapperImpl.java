@@ -10,7 +10,7 @@ import java.util.List;
 public class HouseMapperImpl implements HouseMapper {
     static SqlSession session = MyBatisUtil.createSqlSession();
 
-    private static HouseMapper HM = session.getMapper(HouseMapper.class);
+    private static final HouseMapper HM = session.getMapper(HouseMapper.class);
 
     @Override
     public List<House> FindAllHouse() {
@@ -28,6 +28,13 @@ public class HouseMapperImpl implements HouseMapper {
     @Override
     public House FindDetailHouse(Integer id) {
         return HM.FindDetailHouse(id);
+    }
+
+    @Override
+    public int AddHouse(House house) {
+        int rows = HM.AddHouse(house);
+        session.commit();
+        return rows;
     }
 
 }

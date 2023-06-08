@@ -12,6 +12,9 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet(name = "HouseServlet", value = "/HouseServlet")
@@ -44,6 +47,36 @@ public class HouseServlet extends HttpServlet {
             writer.print(json);
             writer.flush();
             writer.close();
+        }
+        if("AddHouse".equals(opr)){
+            Integer street_id = Integer.valueOf(req.getParameter("street_id"));
+            Integer user_id = Integer.valueOf(req.getParameter("uid"));
+            Integer type_id = Integer.valueOf(req.getParameter("type_id"));
+            String title = req.getParameter("title");
+            String descript = req.getParameter("description");
+            double price = Double.parseDouble(req.getParameter("price"));
+            String InDate = req.getParameter("houseDate");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date parsedDate;
+            try {
+                if (InDate == null || InDate.isEmpty()) {
+                    // 处理日期为空的情况
+                    InDate = "2100-11-11";
+                }
+                parsedDate = format.parse(InDate);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+            java.sql.Date pubdate = new java.sql.Date(parsedDate.getTime());
+            Integer floorage = Integer.valueOf(req.getParameter("floorage"));
+            String contant = req.getParameter("contact");
+            House house = new House(null,street_id,user_id,type_id,title,descript,price,pubdate,floorage,contant);
+            int rows = HS.AddHouse(house);
+            if (rows > 0){
+                res.getWriter().write("房屋添加成功");
+            }else {
+                res.getWriter().write("房屋添加失败");
+            }
         }
 
     }

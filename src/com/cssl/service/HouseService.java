@@ -11,4 +11,6 @@ public interface HouseService {
     //多条件查询房屋信息
     House FindDetailHouse(Integer id);
     //查询该房子详细信息
+    int AddHouse(House house);
+    //添加房子
 }

@@ -24,5 +24,10 @@ public class HouseServiceImpl implements HouseService {
         return HM.FindDetailHouse(id);
     }
 
+    @Override
+    public int AddHouse(House house) {
+        return HM.AddHouse(house);
+    }
+
 
 }
