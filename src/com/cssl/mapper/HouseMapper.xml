@@ -64,4 +64,71 @@
     <delete id="DeleteHouse" parameterType="INT">
         DELETE FROM house where id = #{id};
     </delete>
+
+    <resultMap type="House" id="findAllHouse">
+        <id property="id" column="id" />
+        <association property="street" javaType="Street">
+            <id property="sid" column="sid" />
+        </association>
+        <association property="users" javaType="Users">
+            <id property="uid" column="uid" />
+        </association>
+        <association property="type" javaType="Type">
+            <id property="tid" column="tid" />
+        </association>
+        <association property="district" javaType="District">
+            <id property="did" column="did" />
+        </association>
+    </resultMap>
+
+    <select id="findAll4Page" resultType="House"
+            resultMap="findAllHouse">
+        select h.*,u.*,s.*,d.*,t.* from house h
+        inner join users u on
+        u.uid=h.user_id
+        inner join street s on s.sid=h.street_id
+        inner join type
+        t on t.tid=h.type_id
+        inner join district d on d.did=s.district_id
+        <where>
+            <if test="title!=null and title!=''">
+                title like concat(concat('%',#{title}),'%')
+            </if>
+            <if test="did!=null and did!=0">
+                and did = #{did}
+            </if>
+            <if test="sid!=null and sid!=0">
+                and sid = #{sid}
+            </if>
+            <if test="tid!=null and tid!=0">
+                and tid = #{tid}
+            </if>
+            <if test="price!=null and price!=0">
+                <choose>
+                    <when test="price==1">
+                        and price &lt; 1000
+                    </when>
+                    <when test="price==2">
+                        and price &gt;= 1000 and price &lt;= 3000
+                    </when>
+                    <otherwise>
+                        and price &gt; 3000
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="floorage!=null and floorage!=0">
+                <choose>
+                    <when test="floorage==1">
+                        and floorage &lt; 100
+                    </when>
+                    <when test="floorage==2">
+                        and floorage &gt;= 100 and floorage &lt;= 500
+                    </when>
+                    <otherwise>
+                        and floorage &gt; 500
+                    </otherwise>
+                </choose>
+            </if>
+        </where>
+    </select>
 </mapper>

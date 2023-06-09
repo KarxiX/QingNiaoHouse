@@ -5,17 +5,25 @@ import com.cssl.pojo.House;
 import com.cssl.service.HouseService;
 import com.cssl.service.impl.HouseServiceImpl;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet(name = "HouseServlet", value = "/HouseServlet")
+@MultipartConfig(maxFileSize = 1024 * 1024 * 5)
 public class HouseServlet extends HttpServlet {
     private final HouseService HS = new HouseServiceImpl();
 
@@ -26,7 +34,8 @@ public class HouseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("utf-8");
+        res.setCharacterEncoding("utf-8");
         res.setContentType("text/html;charset=UTF-8");
         String opr = req.getParameter("opr");
         PrintWriter writer = res.getWriter();
@@ -34,7 +43,6 @@ public class HouseServlet extends HttpServlet {
             List<House> list = HS.FindAllHouse();
             String json = JSON.toJSONString(list);
             writer.print(json);
-            //System.out.println(json);
             writer.flush();
             writer.close();
         }
@@ -68,6 +76,35 @@ public class HouseServlet extends HttpServlet {
             java.sql.Date pubdate = new java.sql.Date(parsedDate.getTime());
             Integer floorage = Integer.valueOf(req.getParameter("floorage"));
             String contant = req.getParameter("contact");
+
+            // 1.获取的文件
+            Part part = req.getPart("file");
+            // 2.获取服务器路径
+            String path = req.getServletContext().getRealPath("files/");
+            // 3.上传
+            // 获取文件的格式
+            String type2 = part.getContentType();
+            String[] types = {"image/png", "image/jpeg", "image/gif"};
+            List<String> list = Arrays.asList(types);
+            String file_name = "";
+            // 存不存在
+            String fileName = null;
+            if (list.contains(type2)) {
+                // 获取图片的名字
+                // 产生一个32位的随机数
+                String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+                String contentDisposition = part.getHeader("content-disposition");
+                String[] elements = contentDisposition.split(";");
+                fileName = null;
+                for (String element : elements) {
+                    if (element.trim().startsWith("filename")) {
+                        fileName = element.substring(element.indexOf("=") + 1).trim().replace("\"", "");
+                        break;
+                    }
+                }
+                // 上传
+                part.write(path + File.separator + file_name);
+            }
             House house = new House(null, street_id, user_id, type_id, title, descript, price, pubdate, floorage, contant);
             int rows = HS.AddHouse(house);
             if (rows > 0) {
@@ -136,10 +173,6 @@ public class HouseServlet extends HttpServlet {
                 splitRange(floorage, floorages);
                 floorage1 = floorages[0];
                 floorage2 = floorages[1];
-                System.out.println("price最小值：" + price1);
-                System.out.println("price最大值：" + price2);
-                System.out.println("floorage最小值：" + floorage1);
-                System.out.println("floorage最大值：" + floorage2);
             } catch (IllegalArgumentException e) {
                 System.err.println("错误信息：" + e.getMessage());
             }

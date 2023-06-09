@@ -13,7 +13,7 @@
     <DIV id=logo><IMG src="images/logo.gif"></DIV>
 </DIV>
 <DIV id=navbar class=wrap>
-    <a href="" id="addHouse">新增住房</a>   <a href="login.html">退出</a>
+    <a href="" id="addHouse">新增住房</a> <a href="login.html">退出</a>
     <p id="user-info"></p>
     <input type="hidden" id="user-uid" value="">
     <DL class="search clearfix">
@@ -21,10 +21,11 @@
             <DT>
                 <UL>
                     <LI class=bold>房屋信息</LI>
-                    <LI>标题：<INPUT class=text type=text name=title id="title"> <LABEL class=ui-blue><INPUT onclick=doSearch()
-                                                                                                 value=搜索房屋
-                                                                                                 type=button
-                                                                                                 name=search></LABEL>
+                    <LI>标题：<INPUT class=text type=text name=title id="title"> <LABEL class=ui-blue><INPUT
+                            onclick=doSearch()
+                            value=搜索房屋
+                            type=button
+                            name=search></LABEL>
                     </LI>
                 </UL>
             </DT>
@@ -183,6 +184,7 @@
             return parts.pop().split(";").shift();
         }
     }
+
     //获取Cookie中 uid uname 数据
     document.addEventListener('DOMContentLoaded', function () {
         let user = getCookie("UserName");
@@ -201,13 +203,13 @@
         let floorage = $("#floorage").val();
         let title = $("#title").val();
         let requestData = {
-            title:title,
+            title: title,
             street: street,
             type_id: type_id,
             floorage: floorage,
             price: price
         };
-        $.getJSON('HouseServlet?opr=Search',requestData, function (res) {
+        $.getJSON('HouseServlet?opr=Search', requestData, function (res) {
             console.log(res);
             $("#tab").html("");
             $(res).each(function (i, e) {
@@ -216,15 +218,15 @@
                 var url = 'details.html?id=' + encodeURIComponent(id);
                 //显示判断
                 let tname = "";
-                if(type_id == 1){
+                if (type_id == 1) {
                     tname = "一室一厅";
-                }else if (type_id == 2){
+                } else if (type_id == 2) {
                     tname = "两室一厅";
-                }else if (type_id == 3){
+                } else if (type_id == 3) {
                     tname = "两室两厅";
-                }else if (type_id == 4){
+                } else if (type_id == 4) {
                     tname = "三室两厅";
-                }else if (type_id == 5){
+                } else if (type_id == 5) {
                     tname = "四室三厅";
                 }
                 let tr = "<tr>" +

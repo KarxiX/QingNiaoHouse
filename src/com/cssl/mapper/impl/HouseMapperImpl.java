@@ -3,7 +3,6 @@ package com.cssl.mapper.impl;
 import com.cssl.mapper.HouseMapper;
 import com.cssl.pojo.House;
 import com.cssl.util.MyBatisUtil;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -57,6 +56,12 @@ public class HouseMapperImpl implements HouseMapper {
         int rows = HM.DeleteHouse(id);
         session.commit();
         return rows;
+    }
+
+    @Override
+    public List<House> findAll4Page(String title, Integer did, Integer sid, Integer tid, Integer price, Integer floorage) {
+        List<House> list = HM.FindAllHouse();
+        return list;
     }
 
 }

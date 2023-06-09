@@ -30,4 +30,14 @@ public interface HouseMapper {
     //更新房子信息
     int DeleteHouse(@Param("id") Integer id);
     //删除房子
+
+    List<House> findAll4Page(@Param("title") String title,
+                             @Param("did") Integer did,
+                             @Param("sid") Integer sid,
+                             @Param("tid") Integer tid,
+                             @Param("price") Integer price,
+                             @Param("floorage") Integer floorage
+    );
+    //所有房子 分页版
+
 }

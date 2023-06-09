@@ -21,7 +21,8 @@ public class UsersServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("utf-8");
+        res.setCharacterEncoding("utf-8");
         res.setContentType("text/html;charset=UTF-8");
         String opr = req.getParameter("opr");
         //登录

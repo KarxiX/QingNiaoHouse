@@ -4,6 +4,8 @@ import com.cssl.mapper.HouseMapper;
 import com.cssl.mapper.impl.HouseMapperImpl;
 import com.cssl.pojo.House;
 import com.cssl.service.HouseService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 
 import java.util.List;
 
@@ -46,6 +48,27 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public int DeleteHouse(Integer id) {
         return HM.DeleteHouse(id);
+    }
+
+    @Override
+    public Page<House> findAll4Page(int pageIndex, int pageSize, String title, Integer did, Integer sid, Integer tid, Integer price, Integer floorage) {
+        // 调用分页插件的分页方法
+        Page<House> page = PageHelper.startPage(pageIndex, pageSize, "id desc");
+        // 调用dao层查询方法
+        List<House> list = HM.FindAllHouse();
+        System.out.println("总记录数：" + page.getTotal());
+        System.out.println("总页数：" + page.getPages());
+        System.out.println("当前页码：" + page.getPageNum());
+        System.out.println("每页容量：" + page.getPageSize());
+        List<House> result = page.getResult();
+        System.out.println("**************************");
+        for (House house : result) {
+            System.out.println(house);
+        }
+        System.out.println("***************************");
+        System.out.println("page:" + page);
+
+        return page;
     }
 
 

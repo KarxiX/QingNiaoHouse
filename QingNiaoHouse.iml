@@ -28,5 +28,16 @@
     <orderEntry type="library" name="fastjson-1.2.53" level="project" />
     <orderEntry type="library" name="demoutils" level="application" />
     <orderEntry type="library" name="loader" level="application" />
+    <orderEntry type="library" name="jsqlparser-0.9.1" level="project" />
+    <orderEntry type="library" name="pagehelper-4.1.6" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
