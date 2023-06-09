@@ -1,5 +1,5 @@
 # QingNiaoHouse
-使用Mybatis,动态网页,Servlet,FastJSON,jquery 等
+使用Mybatis,动态网页,Servlet,FastJSON,jQuery 等
 
 2023-6-8 更新</br>
 //TODO
