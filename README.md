@@ -1,7 +1,7 @@
 # QingNiaoHouse
 使用Mybatis,动态网页,Servlet,FastJSON,jQuery 等
 
-2023-6-8 更新</br>
+2023-6-9 更新</br>
 //TODO
 fabu页数据绑定完成</br>
 //TODO
