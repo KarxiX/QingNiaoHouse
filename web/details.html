@@ -7,15 +7,25 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <script src="https://webapi.amap.com/maps?v=2.0&key=c5d401885a78721f78dc99e417d8de99"></script>
+    <script src="https://webapi.amap.com/loader.js"></script>
+    <script type="text/javascript">
+        window._AMapSecurityConfig = {
+            securityJsCode: "b2a613d0f0d309e6b7dec65907e5e095",
+        }
+    </script>
+    <script src="https://a.amap.com/jsapi_demos/static/demo-center/js/demoutils.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=c5d401885a78721f78dc99e417d8de99&plugin=AMap.Geocoder"></script>
     <LINK
             rel=stylesheet type=text/css href="css/style.css">
     <META name=GENERATOR content="MSHTML 8.00.7601.17514">
     <script src="scripts/jquery-1.8.2.min.js"></script>
 </HEAD>
 <style>
-    html, body, #container {
-        width: 100%;
-        height: 100%;
+    #container {
+        position: absolute;
+        left: 666px;
+        top: 153px;
     }
 </style>
 <BODY>
@@ -25,6 +35,7 @@
 </DIV>
 
 <DIV id="view" class="main wrap">
+    <div id="container" style="width: 350px; height: 240px;"></div>
 </DIV>
 <DIV id=footer class=wrap>
     <DL>
@@ -32,32 +43,10 @@
         <DD>关于我们 · 联系方式 · 意见反馈 · 帮助中心</DD>
     </DL>
 </DIV>
-<div id='container'></div><!--地图-->
+<!--<div id="container" style="width: 400px; height: 400px;"></div>-->
+
 
 </BODY>
-<script type="text/javascript">
-    window._AMapSecurityConfig = {
-        securityJsCode:"b2a613d0f0d309e6b7dec65907e5e095",
-    }
-</script>
-<script src="https://webapi.amap.com/loader.js"></script>
-<script type="text/javascript" >
-    let key2 = "911189186892d23685c018bab5b3fa2d";//获取经纬度使用的key
-
-    AMapLoader.load({
-        key: "c5d401885a78721f78dc99e417d8de99",       // 申请好的Web端开发者Key，首次调用 load 时必填
-        version: "2.0",                 // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-    }).then((AMap)=>{
-        const map = new AMap.Map('container',{
-            //mapStyle: 'amap://styles/whitesmoke',
-            zoom:11,  //初始化地图层级
-            center: [112.98626, 28.25591]  //初始化地图中心点
-        });
-    }).catch((e)=>{
-        console.error(e);  //加载错误提示
-    });
-</script>
-
 <script type="text/javascript">
     <!--  时间戳转换方法  -->
     function formatTimestamp(timestamp) {
@@ -71,6 +60,8 @@
         let milliseconds = ('00' + date.getMilliseconds()).slice(-3);
         return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds + '.' + milliseconds;
     }
+
+    let address; // 街区值
     let params = new URLSearchParams(window.location.search);
     let id = params.get('id');
     $.getJSON('HouseServlet?opr=Details&id=' + id, function (res) {
@@ -78,6 +69,7 @@
         $(res).each(function (i, e) {
             let timestamp = e.pubdate;
             let date = formatTimestamp(timestamp);
+            address = e.dname + e.sname;
             let tr = "<div class='intro'>" +
                 "    <div class='lefter'>" +
                 "        <h1>" + e.title + "</h1>" +
@@ -103,9 +95,35 @@
                 "        <div class='content'>" +
                 "            <p>" + e.descript + "</p>" +
                 "        </div>" +
-                "    </div>"+
+                "    </div>" +
                 "</div>";
             $("#view").append(tr);
+            // 初始化地图
+            var map = new AMap.Map('container', {
+                zoom: 14 // 设置初始缩放级别
+            });
+            // 在异步请求回调函数中执行地图相关操作
+            AMap.plugin('AMap.Geocoder', function () {
+                console.log(address+"3");
+                var geocoder = new AMap.Geocoder({
+                    city: '长沙',
+                    batch: true
+                });
+
+                geocoder.getLocation(address, function (status, result) {
+                    if (status == 'complete' && result.info == 'OK') {
+                        let location = result.geocodes[0].location;
+                        let lng = location.lng;
+                        let lat = location.lat;
+                        console.log("经度:" + lng + "  纬度:" + lat);
+                        var marker = new AMap.Marker({
+                            position: [lng, lat],
+                            map: map
+                        });
+                        map.setCenter([lng, lat]);
+                    }
+                })
+            });
         });
     });
 </script>
