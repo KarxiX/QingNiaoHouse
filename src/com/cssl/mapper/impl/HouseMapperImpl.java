@@ -3,6 +3,7 @@ package com.cssl.mapper.impl;
 import com.cssl.mapper.HouseMapper;
 import com.cssl.pojo.House;
 import com.cssl.util.MyBatisUtil;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
@@ -20,11 +21,18 @@ public class HouseMapperImpl implements HouseMapper {
     }
 
     @Override
-    public List<House> FindOneHouse(House house) {
-        List<House> list = HM.FindOneHouse(house);
+    public List<House> FindOneHouse(String street_id,
+                                    String type_id,
+                                    String price1,
+                                    String price2,
+                                    String floorage1,
+                                    String floorage2
+    ) {
+        List<House> list = HM.FindOneHouse(street_id, type_id, price1, price2, floorage1, floorage2);
         return list;
     }
 
+    //多条件查询房屋信息
     @Override
     public House FindDetailHouse(Integer id) {
         return HM.FindDetailHouse(id);

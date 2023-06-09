@@ -15,7 +15,7 @@
 <DIV id=navbar class=wrap>
     <a href="" id="addHouse">新增住房</a>
     <p id="user-info"></p>
-    <input type="hidden" id="user-uid"value="">
+    <input type="hidden" id="user-uid" value="">
     <DL class="search clearfix">
         <FORM id=sform method=post action=search.action>
             <DT>
@@ -74,7 +74,7 @@
             <DD>
                 <UL>
                     <LI class=first>房型</LI>
-                    <LI><SELECT name=type_id>
+                    <LI><SELECT name=type_id id="type_id">
                         <OPTION selected value="">不限</OPTION>
                         <OPTION
                                 value=1>一室一厅
@@ -92,27 +92,29 @@
             <DD>
                 <UL>
                     <LI class=first>价格</LI>
-                    <LI><SELECT name=price>
+                    <LI><SELECT name=price id="price">
                         <OPTION selected value="">不限</OPTION>
                         <OPTION
-                                value=2000>2000元以下
+                                value=0-2000>2000元以下
                         </OPTION>
-                        <OPTION value=2000>2000元以下</OPTION>
-                        <OPTION value=3000>3000元以下</OPTION>
+                        <OPTION value=2000-4000>2000-4000</OPTION>
+                        <OPTION value=4000-6000>4000-6000</OPTION>
+                        <OPTION value=6000-8000>6000-8000</OPTION>
+                        <OPTION value=8000-10000>8000-10000</OPTION>
                     </SELECT></LI>
                 </UL>
             </DD>
             <DD>
                 <UL>
                     <LI class=first>面积</LI>
-                    <LI><SELECT name=floorage>
+                    <LI><SELECT name=floorage id="floorage">
                         <OPTION selected value="">不限</OPTION>
                         <OPTION
-                                value=100>100以下
+                                value=0-200>200平米以下
                         </OPTION>
-                        <OPTION value=40-500>40-500</OPTION>
+                        <OPTION value=200-400>200-400之间</OPTION>
                         <OPTION
-                                value=500-1000000>500以上
+                                value=500-1000>500-1000平米
                         </OPTION>
                     </SELECT></LI>
                 </UL>
@@ -164,6 +166,7 @@
             $("tr:odd").css("background-color", "#bbeae2");
         });
     })
+
     function getCookie(name) {
         const value = "; " + document.cookie;
         const parts = value.split("; " + name + "=");
@@ -171,13 +174,62 @@
             return parts.pop().split(";").shift();
         }
     }
-    document.addEventListener('DOMContentLoaded', function() {
+
+    document.addEventListener('DOMContentLoaded', function () {
         let user = getCookie("UserName");
         let uid = getCookie("UserUid");
         document.getElementById("user-info").textContent = "欢迎您：" + user;
         document.getElementById("user-uid").textContent = uid;
-        $("#addHouse").attr("href",`fabu.html?uid=${uid}`);
+        $("#addHouse").attr("href", `fabu.html?uid=${uid}`);
     });
 
+    //多条件查询
+    function doSearch() {
+        let street = $("#street").val();
+        let type_id = $("#type_id").val();
+        let price = $("#price").val();
+        let floorage = $("#floorage").val();
+        let requestData = {
+            street: street,
+            type_id: type_id,
+            floorage: floorage,
+            price: price
+        };
+        $.getJSON('HouseServlet?opr=Search',requestData, function (res) {
+            console.log(res);
+            $("#tab").html("");
+            $(res).each(function (i, e) {
+                let id = e.id;
+                let type_id = e.type_id;
+                var url = 'details.html?id=' + encodeURIComponent(id);
+                let tname = "";
+                if(type_id == 1){
+                    tname = "一室一厅";
+                }else if (type_id == 2){
+                    tname = "两室一厅";
+                }else if (type_id == 3){
+                    tname = "两室两厅";
+                }else if (type_id == 4){
+                    tname = "三室两厅";
+                }else if (type_id == 5){
+                    tname = "四室三厅";
+                }
+                let tr = "<tr>" +
+                    "<td class='house-thumb'><span><a href=' " + url + "' target='_blank'><img src='images/House1.webp' width='100' height='75' alt=''></a></span></td>" +
+                    "<td>" +
+                    "<dl>" +
+                    "<dt><a href=' " + url + "' target='_self'>" + e.title + "</a></dt>" +
+                    "<dd>" + e.floorage + "平米<br>联系方式：" + e.contant + "</dd>" +
+                    "</dl>" +
+                    "</td>" +
+                    "<td class='house-type'>" + tname + "</td>" +
+                    "<td class='house-price'><span>" + e.privce + "</span>元/月</td>" +
+                    "</tr>";
+                $("#tab").append(tr);
+                $("tr").css("background-color", "#ffffff");
+                $("tr:odd").css("background-color", "#bbeae2");
+            });
+        })
+    }
 </script>
 </HTML>

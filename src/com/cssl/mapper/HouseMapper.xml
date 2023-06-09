@@ -13,24 +13,24 @@
         <!--查询所有房子-->
     </select>
 
-    <select id="FindOneHouse" resultType="House" parameterType="House">
+    <select id="FindOneHouse" resultType="House">
         SELECT * FROM house
         <where>
             <if test="street_id != null and street_id != 0">
-                street_id = #{street_id}
+                AND street_id = #{street_id}
             </if>
             <if test="type_id != null and type_id != 0">
-                and type_id = #{type_id}
+                AND type_id = #{type_id}
             </if>
-            <if test="price != null and price != 0">
-                and price BETWEEN #{price} and 100000
+            <if test="price1 != null and price2 != null">
+                AND price BETWEEN #{price1} AND #{price2}
             </if>
-            <if test="floorage != null and floorage != 0">
-                and floorage BETWEEN #{floorage} and 10000
+            <if test="floorage1 != null and floorage2 != null">
+                AND floorage BETWEEN #{floorage1} AND #{floorage2}
             </if>
         </where>
-        <!--    多条件查询房子    -->
     </select>
+
 
     <select id="FindDetailHouse" resultType="House">
         SELECT h.*, t.*, s.*, d.*
