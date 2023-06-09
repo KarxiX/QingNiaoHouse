@@ -16,6 +16,9 @@
     <select id="FindOneHouse" resultType="House">
         SELECT * FROM house
         <where>
+            <if test='title !=null and title != ""'>
+                AND title like CONCAT('%',#{title},'%')
+            </if>
             <if test="street_id != null and street_id != 0">
                 AND street_id = #{street_id}
             </if>

@@ -8,7 +8,8 @@ import java.util.List;
 public interface HouseService {
     List<House> FindAllHouse();
     //查询所有房子
-    List<House> FindOneHouse(String street_id,
+    List<House> FindOneHouse(String title,
+                             String street_id,
                              String type_id,
                              String price1,
                              String price2,

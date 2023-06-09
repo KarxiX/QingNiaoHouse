@@ -122,6 +122,7 @@ public class HouseServlet extends HttpServlet {
             String type_id = req.getParameter("type_id");
             String price = req.getParameter("price");
             String floorage = req.getParameter("floorage");
+            String title = req.getParameter("title");
             String[] prices = new String[2];//数组存储两个参数
             String[] floorages = new String[2];//数组存储两个参数
             String price1 = null;
@@ -142,7 +143,7 @@ public class HouseServlet extends HttpServlet {
             } catch (IllegalArgumentException e) {
                 System.err.println("错误信息：" + e.getMessage());
             }
-            List<House> list = HS.FindOneHouse(street_id,type_id,price1,price2,floorage1,floorage2);
+            List<House> list = HS.FindOneHouse(title,street_id,type_id,price1,price2,floorage1,floorage2);
             String json = JSON.toJSONString(list);
             writer.print(json);
             writer.flush();

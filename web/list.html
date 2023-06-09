@@ -21,7 +21,7 @@
             <DT>
                 <UL>
                     <LI class=bold>房屋信息</LI>
-                    <LI>标题：<INPUT class=text type=text name=title> <LABEL class=ui-blue><INPUT onclick=doSearch()
+                    <LI>标题：<INPUT class=text type=text name=title id="title"> <LABEL class=ui-blue><INPUT onclick=doSearch()
                                                                                                  value=搜索房屋
                                                                                                  type=button
                                                                                                  name=search></LABEL>
@@ -189,7 +189,9 @@
         let type_id = $("#type_id").val();
         let price = $("#price").val();
         let floorage = $("#floorage").val();
+        let title = $("#title").val();
         let requestData = {
+            title:title,
             street: street,
             type_id: type_id,
             floorage: floorage,
