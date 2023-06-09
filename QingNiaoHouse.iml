@@ -26,6 +26,7 @@
     <orderEntry type="library" name="log4j-1.2.17" level="project" />
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
     <orderEntry type="library" name="fastjson-1.2.53" level="project" />
+    <orderEntry type="library" name="demoutils" level="application" />
     <orderEntry type="library" name="loader" level="application" />
   </component>
 </module>

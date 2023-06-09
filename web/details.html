@@ -118,6 +118,16 @@
                             map: map
                         });
                         map.setCenter([lng, lat]);
+                        // 每隔1秒钟将地图的缩放级别增加1，直到缩放级别达到16为止。
+                        let zoomLevel = 1;
+                        let intervalId = setInterval(() => {
+                            if (zoomLevel <= 16) {
+                                map.setZoom(zoomLevel);
+                                zoomLevel++;
+                            } else {
+                                clearInterval(intervalId);
+                            }
+                        }, 500);
                     }
                 })
             });
